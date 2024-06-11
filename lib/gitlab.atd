@@ -401,6 +401,12 @@ type merge_request = {
 
 type merge_requests = merge_request list
 
+type merge_request_full = {
+  inherit merge_request;
+  ?pipeline: pipeline option;
+  ?head_pipeline: single_pipeline option;
+} <ocaml field_prefix="merge_request_full_">
+
 type commit = {
   id: string;
   short_id: string;

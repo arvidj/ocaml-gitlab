@@ -717,7 +717,7 @@ module type Gitlab = sig
       project_id:int ->
       merge_request_iid:string ->
       unit ->
-      Gitlab_t.merge_request Response.t Monad.t
+      Gitlab_t.merge_request_full Response.t Monad.t
     (** [merge_request ?token ~project_id ~merge_request_iid ()] shows information about a single merge request.
 
         See {{:https://docs.gitlab.com/14.0/ee/api/merge_requests.html#get-single-mr}Get single merge request}.

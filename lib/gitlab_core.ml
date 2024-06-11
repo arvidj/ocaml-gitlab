@@ -1552,7 +1552,7 @@ struct
     let merge_request ?token ~project_id ~merge_request_iid () =
       let uri = URI.project_merge_request ~id:project_id ~merge_request_iid in
       API.get ?token ~uri (fun body ->
-          return (Gitlab_j.merge_request_of_string body))
+          return (Gitlab_j.merge_request_full_of_string body))
 
     let merge_request_participants ?token ~project_id ~merge_request_iid () =
       let uri =
