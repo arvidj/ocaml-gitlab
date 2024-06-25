@@ -247,6 +247,10 @@ struct
         (Printf.sprintf "%s/projects/%i/merge_requests/%s/notes/%i" api
            project_id merge_request_iid note_id)
 
+    let project_merge_trains ~id =
+      Uri.of_string
+        (Printf.sprintf "%s/projects/%i/merge_trains" api id)
+
     let project_pipeline ~id ~pipeline_id =
       Uri.of_string
         (Printf.sprintf "%s/projects/%i/pipelines/%i" api id pipeline_id)
@@ -1344,6 +1348,16 @@ struct
     | None -> uri
     | Some scope -> Uri.add_query_param' uri ("scope", show scope)
 
+
+  let merge_train_scope_param merge_train_scope uri =
+    let show = function
+      | `Active -> "active"
+      | `Complete -> "complete"
+    in
+    match merge_train_scope with
+    | None -> uri
+    | Some scope -> Uri.add_query_param' uri ("scope", show scope)
+
   module Event = struct
     open Lwt
 
@@ -1578,6 +1592,15 @@ struct
       in
       API.get_stream ?token ~uri (fun body ->
           return (Gitlab_j.pipelines_of_string body))
+
+    let merge_trains ?token ~project_id ?scope ?sort () =
+      let uri =
+        URI.project_merge_trains ~id:project_id
+        |> merge_train_scope_param scope
+        |> sort_param sort
+      in
+      API.get_stream ?token ~uri (fun body ->
+          return (Gitlab_j.merge_trains_of_string body))
 
     let events ~token ~project_id ?action ?target_type () =
       let uri =

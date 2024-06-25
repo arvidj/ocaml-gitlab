@@ -754,6 +754,46 @@ type merge_request_changes = {
   ?assignees: assignees option;
 } <ocaml field_prefix="merge_request_changes_">
 
+
+type merge_train_scope = [
+  | Active <json name="active">
+  | Complete <json name="complete">
+]
+
+type merge_train_status = [
+  | Idle <json name="idle">
+  | Merged <json name="merged">
+  | Stale <json name="stale">
+  | Fresh <json name="fresh">
+  | Merging <json name="merging">
+  | Skip_merged <json name="skip_merged">
+]
+
+type merge_train_merge_request = {
+  id: int;
+  iid: int;
+  project_id: int;
+  title: string;
+  description: string;
+  state: state;
+  created_at: date_time;
+  updated_at: date_time;
+  web_url: string;
+} <ocaml field_prefix="merge_train_merge_request_">
+
+type merge_train = {
+  id: int;
+  merge_request: merge_train_merge_request;
+  user: user_short;
+  ?pipeline: pipeline option;
+  created_at: date_time;
+  updated_at: date_time;
+  target_branch: string;
+  status: merge_train_status;
+} <ocaml field_prefix="merge_train_">
+
+type merge_trains = merge_train list
+
 (* TODO Rename these *)
 type commit_webhook = {
   inherit commit_short_webhook;

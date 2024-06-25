@@ -767,6 +767,17 @@ module type Gitlab = sig
        See {{:https://docs.gitlab.com/ee/api/merge_requests.html#list-mr-pipelines}List MR pipelines }.
     *)
 
+    val merge_trains :
+      ?token:Token.t ->
+      project_id:int ->
+      ?scope:Gitlab_t.merge_train_scope ->
+      ?sort:Gitlab_t.sort ->
+      unit ->
+      Gitlab_t.merge_train Stream.t
+    (** [merge_trains ?token ~project_id ?scope ?sort ()] gets a list of merge trains.
+
+       See {{:https://docs.gitlab.com/ee/api/merge_trains.html#list-merge-trains-for-a-project}List Merge Trains for a project}. *)
+
     val events :
       token:Token.t ->
       project_id:int ->
