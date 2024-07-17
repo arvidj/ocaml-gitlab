@@ -401,10 +401,17 @@ type merge_request = {
 
 type merge_requests = merge_request list
 
+type diff_refs = {
+  base_sha: string;
+  head_sha: string;
+  start_sha: string;
+}
+
 type merge_request_full = {
   inherit merge_request;
   ?pipeline: pipeline option;
   ?head_pipeline: single_pipeline option;
+  diff_refs: diff_refs;
 } <ocaml field_prefix="merge_request_full_">
 
 type commit = {
